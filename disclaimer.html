@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disclaimer | NutriCalc</title>
+<style>
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,sans-serif;margin:0;padding:0;background:#f7f8fa;color:#222}
+.container{max-width:860px;margin:0 auto;padding:24px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.lang-switch button{margin-left:8px;padding:6px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer}
+.lang-switch button.active{background:#007bff;color:#fff}
+.card{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+h1{font-size:22px;margin-bottom:16px}
+h2{font-size:18px;margin-top:24px;margin-bottom:12px}
+p{line-height:1.7;margin:0 0 10px}
+[lang]{display:none}
+html[lang="zh-CN"] [lang="zh"]{display:block}
+html[lang="en"] [lang="en"]{display:block}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>NutriCalc 免责声明 | Disclaimer</h1>
+<div class="lang-switch">
+<button data-lang="zh-CN" class="active">中文</button>
+<button data-lang="en">English</button>
+</div>
+</div>
+<div class="card">
+
+<div lang="zh">
+<p>生效日期：2026年4月17日</p>
+<h2>一、非医疗建议</h2>
+<p>本工具所有计算、报告、内容仅供参考，不构成医疗诊断、治疗建议。<b>保健品不能替代药物</b>。使用前请咨询专业医师或药师。</p>
+<h2>二、数据准确性</h2>
+<p>报告数据来源于用户匿名提交，仅为行业趋势参考，不保证完整、准确、及时，不代表市场真实价格。</p>
+<h2>三、责任限制</h2>
+<p>在法律允许最大范围内，NutriCalc 不对任何直接、间接、偶然损失承担责任，包括购买决策、健康问题、利润损失等。</p>
+<h2>四、第三方内容</h2>
+<p>本工具可能包含第三方链接，NutriCalc 不对其内容负责。</p>
+<h2>五、适用法律</h2>
+<p>本声明同时适用中华人民共和国法律与新西兰法律。</p>
+</div>
+
+<div lang="en">
+<p>Effective Date: 17 April 2026</p>
+<h2>1. Not Medical Advice</h2>
+<p>All calculations and reports are for reference only. <b>Supplements are not medicine</b>. Consult a doctor or pharmacist before use.</p>
+<h2>2. Data Accuracy</h2>
+<p>Reports based on anonymous user submissions. For trend reference only. No guarantee of completeness or accuracy.</p>
+<h2>3. Limitation of Liability</h2>
+<p>To the fullest extent permitted by law, NutriCalc shall not be liable for any direct, indirect, or consequential damages.</p>
+<h2>4. Third-Party Links</h2>
+<p>NutriCalc is not responsible for third-party content.</p>
+<h2>5. Governing Law</h2>
+<p>This disclaimer is governed by the laws of China and New Zealand.</p>
+</div>
+
+</div>
+</div>
+<script>
+const btns = document.querySelectorAll('.lang-switch button');
+btns.forEach(b => b.addEventListener('click', () => {
+document.documentElement.lang = b.dataset.lang;
+btns.forEach(x => x.classList.toggle('active',x===b));
+localStorage.setItem('nutriLang',b.dataset.lang);
+}));
+const saved = localStorage.getItem('nutriLang');
+if(saved) document.documentElement.lang = saved;
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>成本洞察报告 | NutriCalc</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:#f7f8fa;margin:0;padding:0;color:#222}
+.container{max-width:860px;margin:0 auto;padding:24px}
+.header{display:flex;justify-content:space-between;align-items:center}
+.lang-switch button{margin-left:8px;padding:6px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer}
+.lang-switch button.active{background:#007bff;color:#fff}
+.card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-top:24px}
+table{width:100%;border-collapse:collapse;margin-top:16px}
+th,td{padding:12px;text-align:left;border-bottom:1px solid #eee}
+th{background:#f8f9fa}
+a.btn{display:inline-block;padding:12px 20px;background:#007bff;color:#fff;text-decoration:none;border-radius:8px;margin-top:16px}
+.footer-links{text-align:center;margin-top:40px;padding:20px 0;font-size:14px;color:#666}
+.footer-links a{margin:0 8px;color:#666;text-decoration:none}
+[lang]{display:none}
+html[lang="zh-CN"] [lang="zh"]{display:block}
+html[lang="en"] [lang="en"]{display:block}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>NutriCalc 匿名成本报告</h1>
+    <div class="lang-switch">
+      <button data-lang="zh-CN" class="active">中文</button>
+      <button data-lang="en">English</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <p lang="zh">本报告仅为匿名统计，不构成消费或医疗建议</p>
+    <p lang="en">For reference only, not medical or purchase advice</p>
+    <p id="reportMeta" style="color:#666"></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th lang="zh">成分</th>
+          <th lang="en">Ingredient</th>
+          <th lang="zh">中位数</th>
+          <th lang="zh">区间</th>
+          <th lang="zh">样本</th>
+          <th lang="zh">趋势</th>
+        </tr>
+      </thead>
+      <tbody id="reportTableBody"></tbody>
+    </table>
+
+    <a href="index.html" class="btn">
+      <span lang="zh">返回计算器</span>
+      <span lang="en">Back to Calculator</span>
+    </a>
+  </div>
+</div>
+
+<div class="footer-links">
+  <a href="privacy.html">隐私政策</a>
+  <a href="terms.html">用户协议</a>
+  <a href="disclaimer.html">免责声明</a>
+</div>
+
+<script>
+const API_BASE = 'https://xxx.onrender.com/api/v1';
+document.addEventListener('DOMContentLoaded',()=>{
+  fetch(API_BASE+'/report',{method:'POST'})
+    .then(r=>r.json())
+    .then(j=>{
+      const d = j.data;
+      document.getElementById('reportMeta').innerText = 
+        document.documentElement.lang=='zh-CN'
+          ? `更新：${d.updatedAt}｜总样本：${d.totalSample}`
+          : `Updated: ${d.updatedAt}｜Total Samples: ${d.totalSample}`;
+      const b = document.getElementById('reportTableBody');
+      d.list.forEach(i=>{
+        b.innerHTML+=`<tr>
+          <td>${document.documentElement.lang=='zh-CN'?i.nameZh:i.nameEn}</td>
+          <td>${i.medianCost.toFixed(2)}</td>
+          <td>${i.minCost.toFixed(2)}~${i.maxCost.toFixed(2)}</td>
+          <td>${i.sampleCount}</td>
+          <td>稳定</td>
+        </tr>`;
+      });
+    });
+
+  document.querySelectorAll('.lang-switch button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.documentElement.lang = b.dataset.lang;
+      document.querySelectorAll('.lang-switch button').forEach(x=>x.classList.toggle('active',x===b));
+    });
+  });
+});
+</script>
+</body>
+</html>

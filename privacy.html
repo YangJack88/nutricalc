@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy | NutriCalc</title>
+<style>
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,sans-serif;margin:0;padding:0;background:#f7f8fa;color:#222}
+.container{max-width:860px;margin:0 auto;padding:24px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.lang-switch button{margin-left:8px;padding:6px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer}
+.lang-switch button.active{background:#007bff;color:#fff}
+.card{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+h1{font-size:22px;margin-bottom:16px}
+h2{font-size:18px;margin-top:24px;margin-bottom:12px}
+p{line-height:1.7;margin:0 0 10px}
+[lang]{display:none}
+html[lang="zh-CN"] [lang="zh"]{display:block}
+html[lang="en"] [lang="en"]{display:block}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>NutriCalc 隐私政策 | Privacy Policy</h1>
+<div class="lang-switch">
+<button data-lang="zh-CN" class="active">中文</button>
+<button data-lang="en">English</button>
+</div>
+</div>
+<div class="card">
+
+<div lang="zh">
+<p>生效日期：2026年4月17日</p>
+<h2>一、我们收集的信息</h2>
+<p>1. 本工具<b>不收集任何个人身份信息</b>，包括姓名、电话、邮箱、地址、设备标识、账号信息等。</p>
+<p>2. 不收集、不存储任何品牌名称、产品名称、商家信息、商品图片或链接。</p>
+<p>3. 仅记录匿名操作行为（如提交数据、查看报告），不含任何可识别个人的信息。</p>
+<h2>二、信息使用目的</h2>
+<p>所有匿名数据仅用于生成聚合统计报告，不用于广告、营销、用户画像，不向第三方共享。</p>
+<h2>三、数据安全</h2>
+<p>数据采用加密存储，严格访问控制，不向任何第三方出售、出租、转让数据。</p>
+<h2>四、用户权利</h2>
+<p>因不存储个人信息，用户无个人数据可查询、更正或删除。</p>
+<h2>五、跨境数据</h2>
+<p>匿名统计数据可在新西兰与中国服务器同步，不涉及个人信息跨境传输。</p>
+<h2>六、联系我们</h2>
+<p>邮箱：privacy@nutricalc.nz</p>
+</div>
+
+<div lang="en">
+<p>Effective Date: 17 April 2026</p>
+<h2>1. Information We Collect</h2>
+<p>1. We <b>collect no personal information</b> including name, phone, email, address, device ID, or account data.</p>
+<p>2. We do NOT collect or store any brand names, product names, seller details, images, or links.</p>
+<p>3. Only anonymous event logs (submit, view) are recorded, with no personal identifiers.</p>
+<h2>2. Purpose of Use</h2>
+<p>Anonymous data is used only for aggregated statistical reports. No advertising, marketing, or user profiling. No third-party sharing.</p>
+<h2>3. Data Security</h2>
+<p>Encrypted storage, strict access control. No data sold, rented, or transferred to third parties.</p>
+<h2>4. User Rights</h2>
+<p>No personal data is stored, so no access, correction, or deletion applies.</p>
+<h2>5. Cross-Border Data</h2>
+<p>Aggregated anonymous data may sync between New Zealand and China. No personal data is transferred.</p>
+<h2>6. Contact</h2>
+<p>Email: privacy@nutricalc.nz</p>
+</div>
+
+</div>
+</div>
+<script>
+const btns = document.querySelectorAll('.lang-switch button');
+btns.forEach(b => b.addEventListener('click', () => {
+const lang = b.dataset.lang;
+document.documentElement.lang = lang;
+btns.forEach(x => x.classList.toggle('active', x === b));
+localStorage.setItem('nutriLang', lang);
+}));
+const saved = localStorage.getItem('nutriLang');
+if(saved) document.documentElement.lang = saved;
+</script>
+</body>
+</html>

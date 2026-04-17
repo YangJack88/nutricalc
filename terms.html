@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service | NutriCalc</title>
+<style>
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,sans-serif;margin:0;padding:0;background:#f7f8fa;color:#222}
+.container{max-width:860px;margin:0 auto;padding:24px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.lang-switch button{margin-left:8px;padding:6px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer}
+.lang-switch button.active{background:#007bff;color:#fff}
+.card{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+h1{font-size:22px;margin-bottom:16px}
+h2{font-size:18px;margin-top:24px;margin-bottom:12px}
+p{line-height:1.7;margin:0 0 10px}
+[lang]{display:none}
+html[lang="zh-CN"] [lang="zh"]{display:block}
+html[lang="en"] [lang="en"]{display:block}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>NutriCalc 用户协议 | Terms of Service</h1>
+<div class="lang-switch">
+<button data-lang="zh-CN" class="active">中文</button>
+<button data-lang="en">English</button>
+</div>
+</div>
+<div class="card">
+
+<div lang="zh">
+<p>生效日期：2026年4月17日</p>
+<h2>一、服务说明</h2>
+<p>NutriCalc 提供保健品有效成分成本计算、匿名数据提交、行业聚合报告服务。本平台中立、非盈利、不销售产品、不推荐品牌。</p>
+<h2>二、用户义务</h2>
+<p>用户承诺提交数据真实合法，不侵犯第三方权利，不恶意刷量、攻击系统。</p>
+<h2>三、数据授权</h2>
+<p>用户提交的匿名数据永久授权 NutriCalc 用于统计分析与公开报告，不可撤回、不可追溯。</p>
+<h2>四、免责条款</h2>
+<p>本工具仅供参考，不构成医疗建议、购买建议。保健品不能替代药品。因使用本工具造成的损失，平台在法律允许范围内不予承担。</p>
+<h2>五、法律适用</h2>
+<p>中国用户适用中华人民共和国法律；新西兰用户适用新西兰法律。</p>
+</div>
+
+<div lang="en">
+<p>Effective Date: 17 April 2026</p>
+<h2>1. Service Description</h2>
+<p>NutriCalc provides supplement cost calculation, anonymous data submission, and aggregated industry reports. Neutral, non-commercial, no sales, no brand promotion.</p>
+<h2>2. User Obligations</h2>
+<p>Users warrant data is truthful and legal. No malicious submission, scraping, or attack.</p>
+<h2>3. License</h2>
+<p>Anonymous submissions are permanently licensed to NutriCalc for statistics and public reports, non-retractable.</p>
+<h2>4. Disclaimer</h2>
+<p>For reference only. Not medical or purchasing advice. Supplements are not medicine. Not liable for damages to fullest extent permitted by law.</p>
+<h2>5. Governing Law</h2>
+<p>PRC law for users in China; New Zealand law for users in NZ.</p>
+</div>
+
+</div>
+</div>
+<script>
+const btns = document.querySelectorAll('.lang-switch button');
+btns.forEach(b => b.addEventListener('click', () => {
+document.documentElement.lang = b.dataset.lang;
+btns.forEach(x => x.classList.toggle('active',x===b));
+localStorage.setItem('nutriLang',b.dataset.lang);
+}));
+const saved = localStorage.getItem('nutriLang');
+if(saved) document.documentElement.lang = saved;
+</script>
+</body>
+</html>
