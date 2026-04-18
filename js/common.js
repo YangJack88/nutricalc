@@ -2,7 +2,7 @@
 // NutriCalc 全局配置 + 前后端对接（最终版）
 // 零法律风险 | 中英双语 | 后端接口打通
 // ====================
-const API_BASE = 'http://localhost:3800/api/v1';
+const API_BASE = 'https://nutricalc-api-6u0w.onrender.com/api/v1';
 
 document.addEventListener('DOMContentLoaded', function () {
   // ==============================================
