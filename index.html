@@ -1,225 +1,131 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NutriCalc 保健品成本计算器</title>
-<style>
-*{box-sizing:border-box}
-body{font-family:system-ui,sans-serif;background:#f7f8fa;margin:0;padding:0;color:#222}
-.container{max-width:800px;margin:0 auto;padding:24px}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.lang-switch button{margin-left:8px;padding:6px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer}
-.lang-switch button.active{background:#007bff;color:#fff}
-.card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:24px}
-.form-group{margin-bottom:16px}
-label{display:block;margin-bottom:6px;font-weight:500}
-input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:16px}
-button.btn{width:100%;padding:14px;background:#007bff;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer;margin-top:8px}
-button.btn-secondary{background:#e9ecef;color:#222}
-.result-box{padding:16px;background:#f8f9fa;border-radius:8px;margin-top:16px;font-size:18px;text-align:center}
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:9999;display:none}
-.modal-content{background:#fff;border-radius:12px;padding:24px;width:100%;max-width:480px}
-.modal-close{cursor:pointer;font-size:20px}
-.form-control{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin-top:6px}
-a.btn{display:inline-block;padding:12px 20px;background:#007bff;color:#fff;text-decoration:none;border-radius:8px;text-align:center;margin-top:8px}
-.footer-links{text-align:center;margin-top:40px;padding:20px 0;font-size:14px;color:#666}
-.footer-links a{margin:0 8px;color:#666;text-decoration:none}
-[lang]{display:none}
-html[lang="zh-CN"] [lang="zh"]{display:block}
-html[lang="en"] [lang="en"]{display:block}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>营养成分价格查询</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        input {
+            width: 60%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .result {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .item:last-child {
+            border-bottom: none;
+        }
+        .name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .price {
+            color: #e74c3c;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
-
-<div class="container">
-  <div class="header">
-    <h1>NutriCalc 纽萃计算器</h1>
-    <div class="lang-switch">
-      <button data-lang="zh-CN" class="active">中文</button>
-      <button data-lang="en">English</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2 lang="zh">保健品有效成分成本计算</h2>
-    <h2 lang="en">Supplement Cost Per Mg Calculator</h2>
-
-    <div class="form-group">
-      <label lang="zh">产品价格（元）</label>
-      <label lang="en">Price (CNY/NZD)</label>
-      <input id="price" type="number" step="0.01" min="0">
-    </div>
-    <div class="form-group">
-      <label lang="zh">总含量（mg/g）</label>
-      <label lang="en">Total Content</label>
-      <input id="totalContent" type="number" step="0.01" min="0">
-    </div>
-    <div class="form-group">
-      <label lang="zh">有效成分纯度（%）</label>
-      <label lang="en">Active Purity (%)</label>
-      <input id="activeContent" type="number" step="0.01" min="0" value="100">
+    <div class="container">
+        <h1>营养成分价格查询</h1>
+        <div class="search-box">
+            <input type="text" id="search" placeholder="输入成分名称（中文/英文）...">
+        </div>
+        <div class="result" id="result"></div>
     </div>
 
-    <button class="btn" id="calcBtn">
-      <span lang="zh">计算成本</span>
-      <span lang="en">Calculate</span>
-    </button>
+    <script>
+        // 修复：接口地址换成你的 Render 后端！
+        const API_BASE = "https://nutricalc-api-6u0w.onrender.com";
 
-    <div id="resultSection" style="display:none;margin-top:20px">
-      <div class="result-box">
-        <div lang="zh">每100mg有效成本：</div>
-        <div lang="en">Cost per 100mg:</div>
-        <strong id="resultPer100mg"></strong>
-      </div>
+        // 页面加载时自动加载所有数据
+        window.onload = function() {
+            loadAllIngredients();
+            
+            // 绑定搜索
+            document.getElementById('search').addEventListener('input', search);
+        };
 
-      <div style="text-align:center;margin-top:16px">
-        <button class="btn btn-secondary" id="openSubmitModal">
-          <span lang="zh">匿名提交数据</span>
-          <span lang="en">Submit Anonymously</span>
-        </button>
-      </div>
-    </div>
-  </div>
+        // 加载所有成分
+        async function loadAllIngredients() {
+            try {
+                let res = await fetch(API_BASE + "/api/ingredients");
+                let list = await res.json();
+                renderList(list);
+            } catch(e) {
+                console.log(e);
+            }
+        }
 
-  <!-- 报告入口 -->
-  <div class="card" style="text-align:center">
-    <a href="report.html" class="btn">
-      <span lang="zh">查看匿名市场成本洞察报告</span>
-      <span lang="en">View Anonymous Market Cost Report</span>
-    </a>
-  </div>
+        // 搜索
+        async function search() {
+            let kw = document.getElementById('search').value.trim();
+            if(!kw) {
+                loadAllIngredients();
+                return;
+            }
 
-  <!-- 成分科普入口 -->
-  <div class="card">
-    <h3 lang="zh">常见成分科普</h3>
-    <h3 lang="en">Common Ingredients</h3>
-    <a href="ingredient-fish-oil.html" class="btn" style="margin-bottom:8px">鱼油 EPA/DHA</a>
-    <a href="ingredient-silymarin.html" class="btn" style="margin-bottom:8px">水飞蓟素</a>
-    <a href="ingredient-coq10.html" class="btn">辅酶Q10</a>
-  </div>
-</div>
+            try {
+                let res = await fetch(API_BASE + "/api/search?kw=" + encodeURIComponent(kw));
+                let list = await res.json();
+                renderList(list);
+            } catch(e) {
+                console.log(e);
+            }
+        }
 
-<!-- 提交弹窗 -->
-<div class="modal" id="submitModal">
-  <div class="modal-content">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3 lang="zh">匿名数据提交</h3>
-      <h3 lang="en">Anonymous Submit</h3>
-      <span class="modal-close" id="closeSubmitModal">&times;</span>
-    </div>
-    <p lang="zh">不收集品牌、不收集个人信息，仅用于统计</p>
-    <p lang="en">No brand, no personal data collected</p>
-    <div class="form-group">
-      <label lang="zh">成分</label>
-      <select id="ingredientType" class="form-control"></select>
-    </div>
-    <div class="form-group">
-      <label lang="zh">每100mg成本</label>
-      <input type="number" id="submitCostPer100mg" readonly class="form-control">
-    </div>
-    <div class="form-group">
-      <label lang="zh">地区</label>
-      <select id="region" class="form-control">
-        <option value="cn">中国</option>
-        <option value="nz">新西兰</option>
-        <option value="other">其他</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label lang="zh">剂型</label>
-      <select id="formType" class="form-control">
-        <option value="capsule">胶囊</option>
-        <option value="tablet">片剂</option>
-        <option value="liquid">液体</option>
-      </select>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:16px">
-      <button class="btn btn-secondary" id="cancelSubmitBtn" style="flex:1">
-        <span lang="zh">取消</span>
-        <span lang="en">Cancel</span>
-      </button>
-      <button class="btn" id="submitDataBtn" style="flex:1">
-        <span lang="zh">确认提交</span>
-        <span lang="en">Submit</span>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- 底部法律链接 -->
-<div class="footer-links">
-  <a href="privacy.html">隐私政策</a>
-  <a href="terms.html">用户协议</a>
-  <a href="disclaimer.html">免责声明</a>
-  <div style="margin-top:8px">© 2026 NutriCalc. 中立工具，不隶属于任何品牌</div>
-</div>
-
-<script>
-// API 地址（上线后替换为你的后端）
-const API_BASE = 'https://xxx.onrender.com/api/v1';
-
-document.addEventListener('DOMContentLoaded',function(){
-  // 语言切换
-  const btns = document.querySelectorAll('.lang-switch button');
-  btns.forEach(b=>{
-    b.addEventListener('click',()=>{
-      document.documentElement.lang = b.dataset.lang;
-      btns.forEach(x=>x.classList.toggle('active',x===b));
-    });
-  });
-
-  // 计算
-  const calcBtn = document.getElementById('calcBtn');
-  calcBtn.addEventListener('click',()=>{
-    const price = +document.getElementById('price').value||0;
-    const total = +document.getElementById('totalContent').value||0;
-    const active = +document.getElementById('activeContent').value||0;
-    if(price<=0||total<=0||active<=0)return alert('请输入有效数值');
-    const real = (active/100)*total;
-    const per100 = (price/real*100).toFixed(4);
-    document.getElementById('resultPer100mg').innerText = per100;
-    document.getElementById('resultSection').style.display='block';
-    document.getElementById('submitCostPer100mg').value = per100;
-  });
-
-  // 弹窗
-  const modal = document.getElementById('submitModal');
-  document.getElementById('openSubmitModal').onclick=()=>modal.style.display='flex';
-  document.getElementById('closeSubmitModal').onclick=()=>modal.style.display='none';
-  document.getElementById('cancelSubmitBtn').onclick=()=>modal.style.display='none';
-  window.onclick=(e)=>{if(e.target===modal)modal.style.display='none'};
-
-  // 加载成分
-  fetch(API_BASE+'/ingredients',{method:'POST'})
-    .then(r=>r.json())
-    .then(j=>{
-      const sel = document.getElementById('ingredientType');
-      j.data.forEach(i=>{
-        const o = document.createElement('option');
-        o.value=i.id;
-        o.textContent = document.documentElement.lang=='zh-CN'?i.nameZh:i.nameEn;
-        sel.appendChild(o);
-      });
-    });
-
-  // 提交
-  document.getElementById('submitDataBtn').onclick=async()=>{
-    const iid = document.getElementById('ingredientType').value;
-    const cost = +document.getElementById('submitCostPer100mg').value;
-    const region = document.getElementById('region').value;
-    const form = document.getElementById('formType').value;
-    if(!iid||cost<=0)return alert('数据无效');
-    const r = await fetch(API_BASE+'/submit',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ingredientId:iid,costPer100mg:cost,region,form})
-    });
-    const j = await r.json();
-    if(j.code===200){alert('提交成功');modal.style.display='none'}
-    else alert('提交失败');
-  };
-});
-</script>
+        // 渲染列表
+        function renderList(list) {
+            let html = '';
+            list.forEach(item => {
+                html += `
+                <div class="item">
+                    <div class="name">${item.name_zh} / ${item.name_en}</div>
+                    <div class="price">参考中位数价格：${item.median_cost || 0.20} 元/单位</div>
+                </div>
+                `;
+            });
+            document.getElementById('result').innerHTML = html;
+        }
+    </script>
 </body>
 </html>
