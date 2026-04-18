@@ -151,10 +151,11 @@ html[lang="en"] [lang="en"]{display:block}
 </div>
 
 <script>
+// ✅ 这是 100% 正确的地址
 const API_BASE = "https://nutricalc-api-6u0w.onrender.com/api/v1";
 
 document.addEventListener('DOMContentLoaded', function () {
-  // 语言切换
+  // 语言
   const langBtns = document.querySelectorAll('.lang-switch button');
   langBtns.forEach(btn => {
     btn.addEventListener('click', () => {
